@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import projeto_final_bloco_01.controller.ProdutoController;
 import projeto_final_bloco_01.model.ProdutoDecorativo;
 import projeto_final_bloco_01.util.Cores;
 
@@ -14,6 +15,8 @@ public class Menu {
     static String corTextoVermelho = Cores.TEXT_RED_BOLD;
     static String corFundoPreto = Cores.ANSI_BLACK_BACKGROUND;
     static String reset = Cores.TEXT_RESET;
+    
+    static ProdutoController produtos = new ProdutoController();
 
 	public static void main(String[] args) {
 		
@@ -75,23 +78,22 @@ public class Menu {
 
                     ProdutoDecorativo produto = new ProdutoDecorativo(id, nome, categoria, preco, material);
 
-                    System.out.println("\nProduto criado com sucesso!");
-                    produto.visualizar();
-
+                    produtos.cadastrar(produto);
                     keyPress();
                     break;
                 case 2:
                     System.out.println("\nListar Produtos");
                     
-                    //VOU FAZER O ARRAYLIST NO CONTROLLER NA BRANCH 3
-                    
+                    produtos.listarTodos();
                     keyPress();
                     break;
                 case 3:
                     System.out.println("\nBuscar Produto por ID");
 
-                    // só dps do controller tb que irei fazera busca
-                    
+                    System.out.print("Informe o ID do produto: ");
+                    int idBuscar = leia.nextInt();
+                    produtos.procurarPorId(idBuscar);
+
                     keyPress();
                     break;
                 case 4:
@@ -114,16 +116,21 @@ public class Menu {
                     System.out.print("Novo Material: ");
                     String novoMaterial = leia.nextLine();
 
-                    // cria o novo objeto 
+                    // Cria o novo objeto para atualização
                     ProdutoDecorativo produtoAtualizado = new ProdutoDecorativo(idAtualizar, novoNome, novaCategoria, novoPreco, novoMaterial);
-                    
-                    //aqui irei chamar o controller dps tb pra atualizar
+
+                    // Chama o controller para atualizar
+                    produtos.atualizar(produtoAtualizado);
                     keyPress();
                     break;
                 case 5:
                     System.out.println("\nRemover Produto");
 
-                    //por fim aqui tb chamarei controller pra deletar
+                    System.out.print("Informe o ID do produto a ser removido: ");
+                    int idRemover = leia.nextInt();
+
+                    // Chama o controller para remover o produto
+                    produtos.deletar(idRemover);
                     keyPress();
                     break;
                 case 0:
